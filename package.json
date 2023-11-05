@@ -1,0 +1,11 @@
+{
+  "name": "projet-lespetitsplats",
+  "version": "1.0.0",
+  "description": "Projet 7 DA Openclassrooms",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Jimmy Defains",
+  "license": "ISC"
+}
