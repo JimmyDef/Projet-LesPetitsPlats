@@ -5,17 +5,26 @@
   padding: 0;
   box-sizing: border-box;
 }
-
+html {
+  background-color: #ededed;
+}
 body {
-  max-width: 1440px;
   margin: 0 auto;
-  font-family: "DM Sans", sans-serif;
+  font-family: "Manrope", sans-serif;
 }
 
 a {
   text-decoration: none;
 }
-
-button {
-  // font-family: "DM Sans", sans-serif;
+h1 {
+  font: 400 2.75rem "Anton", sans-serif;
+  color: $color-tertiary;
 }
+
+h2 {
+  font: 400 1.125rem "Anton", sans-serif;
+  color: $color-primary;
+}
+// button {
+// font-family: "DM Sans", sans-serif;
+// }

@@ -1,3 +1,4 @@
 assets/photographers/original/
 assets/photographers/webp/
 .vscode/
+node_modules/
