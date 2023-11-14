@@ -1,17 +1,15 @@
 header {
   width: 100%;
   height: 667px;
-  border: 3px solid blue;
   margin: 0;
   background-image: url(/assets/images/Recette00.jpeg);
   background-size: cover;
-  // background-color: beige;
 }
 .header {
   max-width: 1440px;
   margin: 0 auto;
   &__logo {
-    display: block;
+    display: inline-block;
     margin: 70px 50px 0;
     img {
       margin-right: 3px;
@@ -25,6 +23,8 @@ header {
     max-width: 670px;
   }
   &__form {
+    background-color: white;
+    position: relative;
     border-radius: 5px;
     overflow: hidden;
     display: flex;
@@ -37,11 +37,13 @@ header {
   &__input-search {
     padding-left: 35px;
     border: 0;
-    margin: 0;
+    margin: 0 20px 0 0;
     height: 100%;
     flex-grow: 1;
-    &::placeholder {
-      font-size: 1rem;
+    color: $color-2;
+    font-size: 1rem;
+    &:focus {
+      outline: none;
     }
   }
   &__btn {
@@ -49,8 +51,8 @@ header {
     border: 0;
     background: white;
     margin: 0;
-    width: 80px;
+    width: 70px;
     height: 100%;
-    padding: 10px 10px;
+    padding: 0 10px 0 0;
   }
 }

@@ -1,0 +1,21 @@
+.tags {
+  display: flex;
+  &__picked {
+    // width: 200px;
+    // min-width: 200px;
+    height: 53px;
+    line-height: 53px;
+    padding: 0 18px;
+    align-items: center;
+    gap: 60px;
+    border-radius: 10px;
+    background: $color-3;
+    font-size: 0.875rem;
+    flex-shrink: 1;
+  }
+  &__cross {
+    float: right;
+    padding-top: 22px;
+    margin-left: 22px;
+  }
+}

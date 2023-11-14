@@ -1,12 +1,13 @@
 @import "./utils/variables";
-// @import "./utils/functions";
+@import "./utils/animations";
 @import "./utils/mixins";
 
 @import "./base/base";
-// @import "./base/normalize";
+@import "./base/normalize";
 // @import "./base/typography";
 
-// @import "./components/buttons";
+@import "./components/card";
+@import "./components/tag";
 
 @import "./layouts/header";
 

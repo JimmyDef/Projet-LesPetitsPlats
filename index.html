@@ -27,13 +27,14 @@
           DÉLICIEUSES
         </h1>
 
-        <form class="header__form">
+        <form class="header__form" id="header-form">
           <label for="search" class="header__label"></label>
           <input
             id="search"
             class="header__input-search"
             type="search"
-            placeholder="Rechercher une recette, un ingrédient, ..." />
+            placeholder="Rechercher une recette, un ingrédient, ..."
+            maxlength="35" />
           <button class="header__btn">
             <img src="./assets/icons/magnifier-bg-black.svg" alt="loupe" />
           </button>
@@ -41,37 +42,102 @@
       </div>
     </header>
     <main class="main">
-      <form class="filter">
-        <div class="  filter__btn-wrapper">
-          <button class=" filter__btn filter__btn--ingredients">
-            Ingrédient <img src="./assets/icons/chevron.svg" class="filter__chevron" alt="chevron poitant vers le bas"/>
-          </button>
-          <button class=" filter__btn filter__btn--device">
-            Appareil <img src="./assets/icons/chevron.svg" class="filter__chevron" alt="chevron poitant vers le bas"/>
-          <button class="filter__btn filter__btn--utensils">
-            Ustensiles<img src="./assets/icons/chevron.svg" class="filter__chevron" alt="chevron poitant vers le bas"/>
-        </div>
-       
-<span id="recipeCounter" class="filter__recipe"> Recettes</span>
-        
-      </form>
-     <section class="cards-wrapper" id="card-wrapper">
+      <section class="filter">
+        <div class="filter__filters-and-count">
+          <div class="  filter__container">
+            <div class=" filter__wrapper ">
+              <img
+                src="./assets/icons/chevron.svg"
+                class="filter__chevron"
+                alt="chevron ouvrir liste"
+                id="ingredients-chevron" />
+              <button class=" filter__btn " id="ingredients-btn">
+                Ingrédients
+              </button>
 
-     
-        <article class="article">
-          <div class="article__img-wrapper">
-            <img src="" alt="" class="article__img">
+              <div class="filter__collapser  " id="ingredients-filter">
+                <div class="filter__search-wrapper ">
+                  <input
+                    type="search"
+                    class="filter__search"
+                    id="ingredients-search" />
+                  <img
+                    src="./assets/icons/magnifier.svg"
+                    class="filter__magnifier"
+                    alt="loupe rechercher" />
+                </div>
+
+                <ul class="filter__list" id="ingredients-list">
+                  <li class="filter__list-li">test</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class=" filter__wrapper ">
+              <img
+                src="./assets/icons/chevron.svg"
+                class="filter__chevron"
+                alt="chevron ouvrir liste"
+                id="devices-chevron" />
+              <button class=" filter__btn " id="devices-btn">Appareils</button>
+              <div class="filter__collapser  " id="devices-filter">
+                <div class="filter__search-wrapper ">
+                  <input
+                    type="search"
+                    class="filter__search"
+                    id="devices-search" />
+                  <img
+                    src="./assets/icons/magnifier.svg"
+                    class="filter__magnifier"
+                    alt="loupe rechercher" />
+                </div>
+
+                <ul class="filter__list" id="devices-list"></ul>
+              </div>
+            </div>
+            <div class=" filter__wrapper  ">
+              <img
+                src="./assets/icons/chevron.svg"
+                class="filter__chevron"
+                alt="chevron ouvrir liste"
+                id="ustensils-chevron" />
+              <button class="filter__btn " id="ustensils-btn">
+                Ustensiles
+              </button>
+              <div class="filter__collapser  " id="ustensils-filter">
+                <div class="filter__search-wrapper ">
+                  <input
+                    type="search"
+                    class="filter__search"
+                    id="ustensils-search" />
+                  <img
+                    src="./assets/icons/magnifier.svg"
+                    class="filter__magnifier"
+                    alt="loupe rechercher" />
+                </div>
+
+                <div class="filter__list-wrapper">
+                  <ul class="filter__list" id="ustensils-list"></ul>
+                </div>
+              </div>
+            </div>
           </div>
-          <h2 class="article__title">test</h2>
-          <p  class="article__recipe">RECETTE</p>
-          <p class="article__details">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Recusandae adipisci autem voluptas deleniti sed officiis ex assumenda itaque minima quaerat.</p>
-        <p class="article__ingredients">INGRÉDIENTS</p>
-        <div class="article__ingredients-wrapper">
-
+          <span id="recipeCounter" class="filter__recipe-count"> Recettes</span>
         </div>
-        </article>
+        <div class="tags">
+          <div class="tags__picked">
+            Chocolat
+            <img
+              src="./assets/icons/cross.svg"
+              alt="croix supprimer le tag"
+              class="tags__cross" />
+          </div>
+        </div>
       </section>
+
+      <section class="cards-wrapper" id="card-wrapper"></section>
     </main>
+    <script type="module" src="./scripts/index.js"></script>
+    <script type="module" src="./scripts/filter.js"></script>
   </body>
-  <script type="module" src="./scripts/index.js"></script>
 </html>

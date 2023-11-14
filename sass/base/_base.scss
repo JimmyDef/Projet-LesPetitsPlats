@@ -18,12 +18,15 @@ a {
 }
 h1 {
   font: 400 2.75rem "Anton", sans-serif;
-  color: $color-tertiary;
+  color: $color-3;
 }
 
 h2 {
   font: 400 1.125rem "Anton", sans-serif;
-  color: $color-primary;
+  color: $color-1;
+}
+ul {
+  list-style-type: none;
 }
 // button {
 // font-family: "DM Sans", sans-serif;

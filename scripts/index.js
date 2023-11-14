@@ -1,34 +1,73 @@
-// import { getData } from "./utils/modules";
-import { recipes } from "../assets/data/recipes.js";
+import recipes from './../assets/data/recipes.js'
+// import { renderCards } from './templates/card.js'
+import { mainFilter } from './filter.js'
 
-const articleSection = document.getElementById("card-wrapper");
+const search = document.getElementById('search')
+const headerForm = document.getElementById('header-form')
 
-// -----------------------------------------------------------
-// Fonction création des cards
-// -----------------------------------------------------------
+headerForm.addEventListener('click', (e) => {
+  e.preventDefault()
+})
+search.addEventListener('click', (e) => {
+  e.target.value = ''
+  mainFilter(recipes)
+})
 
-const getArticleDom = (data) => {
-  const { image, name, ingredients, description } = data;
-  const imgUrl = `./assets/images/${image}`;
-  const ingredientsWrapper = document.getElementById("");
+const initPage = () => {
+  mainFilter(recipes)
+}
 
-  const article = document.createElement("article");
-  article.className = "article";
-  article.innerHTML = ` 
- 
-          <div class="article__img-wrapper">
-            <img src="${imgUrl}" alt="${name}" class="article__img">
-          </div>
-         
-          <h2 class="article__title">${name}</h2>
-          <p  class="article__recipe">RECETTE</p>
-          <p class="article__details">${description}</p>
-        <p class="article__ingredients">INGRÉDIENTS</p>
-        <div class="article__ingredients-wrapper" id="ingredients-wrapper"></div>
-`;
-  articleSection.appendChild(article);
-};
+// DOM Filter ingredients ------------------
 
-recipes.forEach((data) => {
-  getArticleDom(data);
-});
+const ingredientsBtn = document.getElementById('ingredients-btn')
+// const ingredientsList = document.getElementById("ingredients-list");
+// const ingredientsSearch = document.getElementById("ingredients-search");
+
+// DOM Filter devices ------------------
+const devicesBtn = document.getElementById('devices-btn')
+// const devicesList = document.getElementById("devices-list");
+// const devicesFilter = document.getElementById("devices-filter");
+// const devicesSearch = document.getElementById("devices-search");
+
+// DOM Filter ustensils  ------------------
+const ustensilBtn = document.getElementById('ustensils-btn')
+// const ustensilsList = document.getElementById("ustensils-list");
+// const ustensilsFilter = document.getElementById("ustensils-filter");
+// const ustensilsSearch = document.getElementById("ustensils-search");
+
+const expandList = (filterType) => {
+  document
+    .getElementById(`${filterType}-chevron`)
+    .classList.toggle('filter__chevron--up')
+  document
+    .getElementById(`${filterType}-filter`)
+    .classList.toggle('filter__is-collapsed')
+}
+const hideList = (filterType) => {
+  document
+    .getElementById(`${filterType}-chevron`)
+    .classList.remove('filter__chevron--up')
+  document
+    .getElementById(`${filterType}-filter`)
+    .classList.remove('filter__is-collapsed')
+}
+
+ingredientsBtn.addEventListener('click', () => {
+  expandList('ingredients')
+  hideList('devices')
+  hideList('ustensils')
+})
+devicesBtn.addEventListener('click', () => {
+  expandList('devices')
+  hideList('ingredients')
+  hideList('ustensils')
+})
+ustensilBtn.addEventListener('click', () => {
+  expandList('ustensils')
+  hideList('devices')
+  hideList('ingredients')
+})
+
+initPage()
+// export { recipes }
+// export { renderCards }
