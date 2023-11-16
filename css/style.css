@@ -599,8 +599,9 @@ main {
 .filter__list-li {
   overflow: auto;
   cursor: pointer;
-  height: 38px;
-  line-height: 38px;
+  margin-bottom: 2px;
+  height: 35px;
+  line-height: 35px;
   font-size: 0.875rem;
   font-weight: 400;
   padding: 0 15px;
@@ -615,11 +616,19 @@ main {
   right: 25px;
 }
 
-.cards-wrapper {
+.cards-container {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   justify-content: space-between;
   gap: 48px;
+}
+.cards-container__no-match-msg {
+  width: 70vw;
+  font-size: 1.3rem;
+}
+.cards-container__span {
+  font-style: italic;
+  font-weight: bolder;
 }
 
 .filter__is-collapsed {

@@ -2,13 +2,19 @@
 // Fonction display des articles
 // ----------------------------------------------------
 
-const renderCards = (recipesData) => {
-  const articleSection = document.getElementById('card-wrapper')
-  articleSection.innerHTML = ' '
-  recipesData.forEach((data) => {
-    const card = getCardDom(data)
-    articleSection.appendChild(card)
-  })
+const renderCards = (recipesData, string) => {
+  const articleSection = document.getElementById('card-container')
+
+  if (!recipesData || recipesData.length === 0) {
+    articleSection.innerHTML = `<p class="cards-container__no-match-msg">Aucune recette ne contient <span class="cards-container__span">‘${string} ’</span> </br> vous pouvez chercher «
+tarte aux pommes », « poisson », etc.<p>`
+  } else {
+    articleSection.innerHTML = ' '
+    recipesData.forEach((data) => {
+      const card = getCardDom(data)
+      articleSection.appendChild(card)
+    })
+  }
 }
 
 // -----------------------------------------------------------

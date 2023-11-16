@@ -1,6 +1,23 @@
 import recipes from './../assets/data/recipes.js'
-// import { renderCards } from './templates/card.js'
-import { mainFilter } from './filter.js'
+import { renderCards } from './templates/card.js'
+import {
+  mainSearch,
+  searchResult,
+  filterByIngredients
+} from './modules/search_engine.js'
+
+// let searchResult = recipes
+// DOM Filter ingredients ------------------
+const ingredientsListDom = document.getElementById('ingredients-list')
+// const ingredientsSearch = document.getElementById("ingredients-search");
+
+// DOM Filter devices ------------------
+const devicesListDom = document.getElementById('devices-list')
+// const devicesSearch = document.getElementById("devices-search");
+
+// DOM Filter ustensils  ------------------
+const ustensilsListDom = document.getElementById('ustensils-list')
+// const ustensilsSearch = document.getElementById("ustensils-search");
 
 const search = document.getElementById('search')
 const headerForm = document.getElementById('header-form')
@@ -10,64 +27,109 @@ headerForm.addEventListener('click', (e) => {
 })
 search.addEventListener('click', (e) => {
   e.target.value = ''
-  mainFilter(recipes)
+  mainSearch(recipes)
 })
 
 const initPage = () => {
-  mainFilter(recipes)
+  mainSearch(recipes)
+  setIngredientsList(recipes, ingredientsListDom)
+  setdevicesList(recipes, devicesListDom)
+  setUstensilsList(recipes, ustensilsListDom)
+}
+// ----------------------------------------------------
+// Fonction display des <li> recherche avancée
+// ----------------------------------------------------
+
+const renderList = (data, ul) => {
+  console.log('🚀 ~ ul:', ul)
+
+  const listarray = [...data]
+
+  ul.innerHTML = ''
+  listarray.sort()
+  listarray.forEach((ingredient) => {
+    const li = document.createElement('li')
+    li.className = 'filter__list-li'
+    li.textContent = `${ingredient}`
+
+    ul.appendChild(li)
+  })
 }
 
-// DOM Filter ingredients ------------------
+// ----------------------------------------------------
+// Création liste ingrédient
 
-const ingredientsBtn = document.getElementById('ingredients-btn')
-// const ingredientsList = document.getElementById("ingredients-list");
-// const ingredientsSearch = document.getElementById("ingredients-search");
+const setIngredientsList = (data) => {
+  if (!Array.isArray(data)) {
+    data = [...data]
+  }
 
-// DOM Filter devices ------------------
-const devicesBtn = document.getElementById('devices-btn')
-// const devicesList = document.getElementById("devices-list");
-// const devicesFilter = document.getElementById("devices-filter");
-// const devicesSearch = document.getElementById("devices-search");
+  const ingredListItem = new Set()
+  data.forEach(obj => {
+    obj.ingredients.forEach(elt => {
+      const formattedString =
+        (elt.ingredient.charAt(0).toUpperCase() +
+        elt.ingredient.slice(1).toLowerCase()).trim()
+      ingredListItem.add(formattedString)
+    })
+  })
 
-// DOM Filter ustensils  ------------------
-const ustensilBtn = document.getElementById('ustensils-btn')
-// const ustensilsList = document.getElementById("ustensils-list");
-// const ustensilsFilter = document.getElementById("ustensils-filter");
-// const ustensilsSearch = document.getElementById("ustensils-search");
-
-const expandList = (filterType) => {
-  document
-    .getElementById(`${filterType}-chevron`)
-    .classList.toggle('filter__chevron--up')
-  document
-    .getElementById(`${filterType}-filter`)
-    .classList.toggle('filter__is-collapsed')
-}
-const hideList = (filterType) => {
-  document
-    .getElementById(`${filterType}-chevron`)
-    .classList.remove('filter__chevron--up')
-  document
-    .getElementById(`${filterType}-filter`)
-    .classList.remove('filter__is-collapsed')
+  renderList(ingredListItem, ingredientsListDom)
 }
 
-ingredientsBtn.addEventListener('click', () => {
-  expandList('ingredients')
-  hideList('devices')
-  hideList('ustensils')
-})
-devicesBtn.addEventListener('click', () => {
-  expandList('devices')
-  hideList('ingredients')
-  hideList('ustensils')
-})
-ustensilBtn.addEventListener('click', () => {
-  expandList('ustensils')
-  hideList('devices')
-  hideList('ingredients')
-})
+// ----------------------------------------------------
+// Création liste Appareils
+
+const setdevicesList = (data) => {
+  const devicesListItem = new Set()
+  data.forEach(elt => {
+    const formattedString = (elt.appliance.charAt(0).toUpperCase() + elt.appliance.slice(1).toLowerCase()).trim()
+    devicesListItem.add(formattedString)
+  })
+  renderList(devicesListItem, devicesListDom)
+}
+
+// ----------------------------------------------------
+// Création liste ustensiles
+
+const setUstensilsList = (data) => {
+  const ustensilListItem = new Set()
+  data.forEach(obj => {
+    obj.ustensils.forEach((ustenstil) => {
+      const stg = (ustenstil.charAt(0).toUpperCase() + ustenstil.slice(1).toLowerCase()).trim()
+      ustensilListItem.add(stg)
+    }
+    )
+  })
+  renderList(ustensilListItem, ustensilsListDom)
+}
 
 initPage()
 // export { recipes }
 // export { renderCards }
+const updateIngredientsListListener = () => {
+}
+
+const ingredientsItems = document.querySelectorAll('#ingredients-list > li')
+const tagsResult = new Set()
+ingredientsItems.forEach((li) => {
+  li.addEventListener('click', () => {
+    const liTextContent = li.textContent.split(' ')
+    filterByIngredients(searchResult, liTextContent, tagsResult)
+    searchResult.forEach((recipe) => {
+      if (
+        recipe.ingredients.some((obj) =>
+          liTextContent.every((word) => {
+            return obj.ingredient.toLowerCase().includes(word.toLowerCase())
+          })
+        )
+      ) {
+        tagsResult.add(recipe)
+      }
+    })
+    renderCards(tagsResult)
+    setIngredientsList(tagsResult)
+    setdevicesList(tagsResult)
+    setUstensilsList(tagsResult)
+  })
+})
