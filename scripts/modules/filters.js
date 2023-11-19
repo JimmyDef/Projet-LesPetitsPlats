@@ -17,6 +17,10 @@ const ustensilBtn = document.getElementById('ustensils-btn')
 // const ustensilsFilter = document.getElementById("ustensils-filter");
 // const devicesFilter = document.getElementById("devices-filter");
 
+// ----------------------------------------------------
+// Fonction display un menu liste
+// ----------------------------------------------------
+
 const expandList = (filterType) => {
   document
     .getElementById(`${filterType}-chevron`)
@@ -25,6 +29,9 @@ const expandList = (filterType) => {
     .getElementById(`${filterType}-filter`)
     .classList.toggle('filter__is-collapsed')
 }
+// ----------------------------------------------------
+// Fonction fermer un menu liste
+// ----------------------------------------------------
 const hideList = (filterType) => {
   document
     .getElementById(`${filterType}-chevron`)
@@ -33,6 +40,8 @@ const hideList = (filterType) => {
     .getElementById(`${filterType}-filter`)
     .classList.remove('filter__is-collapsed')
 }
+// ----------------------------------------------------
+// ----------------------------------------------------
 
 ingredientsBtn.addEventListener('click', () => {
   expandList('ingredients')
@@ -48,4 +57,21 @@ ustensilBtn.addEventListener('click', () => {
   expandList('ustensils')
   hideList('devices')
   hideList('ingredients')
+})
+
+// ----------------------------------------------------
+// Fermeture des liste en cas de clic externe
+// ----------------------------------------------------
+document.addEventListener('click', (e) => {
+  const filterBoxes = document.querySelectorAll('.filter__container')
+  const filterCollapsed = document.querySelector('.filter__is-collapsed')
+  const filterCollapsedChevron = document.querySelector('.filter__chevron--up')
+
+  const isClickInsideInsideDropDow = Array.from(filterBoxes).some((box) =>
+    box.contains(e.target)
+  )
+  if (!isClickInsideInsideDropDow && filterCollapsed !== null) {
+    filterCollapsedChevron.classList.remove('filter__chevron--up')
+    filterCollapsed.classList.remove('filter__is-collapsed')
+  }
 })

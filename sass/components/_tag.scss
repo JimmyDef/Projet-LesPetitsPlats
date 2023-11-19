@@ -1,5 +1,16 @@
-.tags {
+.tag-container {
   display: flex;
+  // gap: 40px 30px;
+}
+
+.tags {
+  margin-left: 10px;
+  height: 53px;
+  width: 200px;
+  background-color: $color-3;
+  border-radius: 11px;
+  outline: 0;
+  border: 0;
   &__picked {
     // width: 200px;
     // min-width: 200px;
@@ -15,7 +26,8 @@
   }
   &__cross {
     float: right;
-    padding-top: 22px;
-    margin-left: 22px;
+    // padding-top: 22px;
+    margin: 0 22px;
+    cursor: pointer;
   }
 }

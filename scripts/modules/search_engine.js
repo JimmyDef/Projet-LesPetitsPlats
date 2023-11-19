@@ -1,42 +1,43 @@
-import recipes from '../../assets/data/recipes.js'
+// import recipes from '../../assets/data/recipes.js'
 import { renderCards } from '../templates/card.js'
 const search = document.getElementById('search')
-let searchResult = recipes
+// let searchResult = recipes
 
 // ----------------------------------------------------
 // Fonction gestion bar de recherche principal
 // ----------------------------------------------------
 
-const mainSearch = (data) => {
+const mainSearch = (recipes, updatedRecipes) => {
   search.addEventListener('input', (e) => {
     e.preventDefault()
     const input = e.target.value.trim()
-
+    console.log('🚀 ~ recipes:', recipes)
     if (input !== null && input.length >= 3) {
-      const searchedWords = input.split(' ')
+      const searchedWordsArray = input.split(' ')
       const mergedResults = new Set()
 
-      filterByTitleAndDescription(data, searchedWords, mergedResults)
-      filterByIngredients(data, searchedWords, mergedResults)
+      filterByTitleAndDescription(recipes, searchedWordsArray, mergedResults)
+      filterByIngredients(recipes, searchedWordsArray, mergedResults)
 
-      searchResult = [...mergedResults]
-      renderCards(searchResult, e.target.value)
-      updateRecipeCounter(searchResult)
+      recipes = [...mergedResults]
+      // updatedRecipes
+      renderCards(recipes, e.target.value)
+      updateRecipeCounter(recipes)
     }
   })
 
-  renderCards(data)
-  updateRecipeCounter(data)
+  renderCards(recipes)
+  updateRecipeCounter(recipes)
 }
 
 // ------------------------------------------------------
 // Fonction Recherche  dans les titres et descriptions
 // ------------------------------------------------------
 
-const filterByTitleAndDescription = (data, searchedWords, mergedResults) => {
+const filterByTitleAndDescription = (data, searchedWordsArray, mergedResults) => {
   data.forEach((recipe) => {
     if (
-      searchedWords.every((word) => {
+      searchedWordsArray.every((word) => {
         return (
           recipe.name.toLowerCase().includes(word.toLowerCase()) ||
           recipe.description.toLowerCase().includes(word.toLowerCase())
@@ -50,18 +51,18 @@ const filterByTitleAndDescription = (data, searchedWords, mergedResults) => {
 // ------------------------------------------------------
 // Fonction Recherche  dans les listes d'ingrédients
 // ------------------------------------------------------
-const filterByIngredients = (data, searchedWords, mergedResults) => {
-  data.forEach((recipe) => {
-    if (
-      recipe.ingredients.some((obj) =>
-        searchedWords.every((word) => {
-          return obj.ingredient.toLowerCase().includes(word.toLowerCase())
-        })
-      )
-    ) {
-      mergedResults.add(recipe)
-    }
+const filterByIngredients = (data, searchedWordsArray, mergedResults) => {
+  // if(!Array.isArray(searchedWordsArray))  {}
+  const ingredientsResults = data.filter((recipe) => {
+    return recipe.ingredients.some((obj) =>
+
+      searchedWordsArray.every((word) => {
+        return obj.ingredient.toLowerCase().includes(word.toLowerCase())
+      })
+    )
   })
+
+  ingredientsResults.forEach((recipe) => mergedResults.add(recipe))
 }
 
 // ----------------------------------------------------
@@ -71,4 +72,4 @@ const updateRecipeCounter = (data) => {
   const recipeCounter = document.getElementById('recipeCounter')
   recipeCounter.innerText = `${data.length} recettes`
 }
-export { mainSearch, searchResult, filterByIngredients }
+export { mainSearch, filterByIngredients, updateRecipeCounter }

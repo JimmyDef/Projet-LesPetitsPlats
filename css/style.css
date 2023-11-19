@@ -428,8 +428,18 @@ template {
   font-weight: 400;
 }
 
-.tags {
+.tag-container {
   display: flex;
+}
+
+.tags {
+  margin-left: 10px;
+  height: 53px;
+  width: 200px;
+  background-color: #ffd15b;
+  border-radius: 11px;
+  outline: 0;
+  border: 0;
 }
 .tags__picked {
   height: 53px;
@@ -444,8 +454,8 @@ template {
 }
 .tags__cross {
   float: right;
-  padding-top: 22px;
-  margin-left: 22px;
+  margin: 0 22px;
+  cursor: pointer;
 }
 
 header {
