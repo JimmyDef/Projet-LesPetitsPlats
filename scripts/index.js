@@ -2,7 +2,7 @@ import recipes from './../assets/data/recipes.js'
 import { renderCards } from './templates/card.js'
 import { capitalizeFirstLetter } from './utils/utils.js'
 import {
-  mainSearch, updateRecipeCounter
+  mainSearch, updateRecipeCounter, searchResult
 
   // filterByIngredients
 } from './modules/search_engine.js'
@@ -25,7 +25,7 @@ const ustensilsListDom = document.getElementById('ustensils-list')
 const searchInput = document.getElementById('search')
 const headerForm = document.getElementById('header-form')
 // const tagsResult = new Set()
-let searchResult = recipes
+// let searchResult = recipes
 let tagsList = []
 headerForm.addEventListener('click', (e) => {
   e.preventDefault()

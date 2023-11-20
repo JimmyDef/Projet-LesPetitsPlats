@@ -1,33 +1,33 @@
-// import recipes from '../../assets/data/recipes.js'
+import recipes from '../../assets/data/recipes.js'
 import { renderCards } from '../templates/card.js'
 const search = document.getElementById('search')
-// let searchResult = recipes
+let searchResult = recipes
 
 // ----------------------------------------------------
 // Fonction gestion bar de recherche principal
 // ----------------------------------------------------
 
-const mainSearch = (recipes, updatedRecipes) => {
+const mainSearch = (data) => {
   search.addEventListener('input', (e) => {
     e.preventDefault()
     const input = e.target.value.trim()
-    console.log('🚀 ~ recipes:', recipes)
+
     if (input !== null && input.length >= 3) {
       const searchedWordsArray = input.split(' ')
       const mergedResults = new Set()
 
-      filterByTitleAndDescription(recipes, searchedWordsArray, mergedResults)
-      filterByIngredients(recipes, searchedWordsArray, mergedResults)
+      filterByTitleAndDescription(data, searchedWordsArray, mergedResults)
+      filterByIngredients(data, searchedWordsArray, mergedResults)
 
-      recipes = [...mergedResults]
+      searchResult = [...mergedResults]
       // updatedRecipes
-      renderCards(recipes, e.target.value)
-      updateRecipeCounter(recipes)
+      renderCards(searchResult, e.target.value)
+      updateRecipeCounter(searchResult)
     }
   })
 
-  renderCards(recipes)
-  updateRecipeCounter(recipes)
+  renderCards(data)
+  updateRecipeCounter(data)
 }
 
 // ------------------------------------------------------
@@ -72,4 +72,4 @@ const updateRecipeCounter = (data) => {
   const recipeCounter = document.getElementById('recipeCounter')
   recipeCounter.innerText = `${data.length} recettes`
 }
-export { mainSearch, filterByIngredients, updateRecipeCounter }
+export { mainSearch, filterByIngredients, updateRecipeCounter, searchResult }
