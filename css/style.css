@@ -428,33 +428,25 @@ template {
   font-weight: 400;
 }
 
-.tag-container {
+.tags-container {
   display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
 }
 
 .tags {
-  margin-left: 10px;
-  height: 53px;
-  width: 200px;
-  background-color: #ffd15b;
-  border-radius: 11px;
-  outline: 0;
-  border: 0;
-}
-.tags__picked {
+  display: inline-block;
+  font-size: 0.9rem;
   height: 53px;
   line-height: 53px;
+  background-color: #ffd15b;
+  border-radius: 11px;
   padding: 0 18px;
-  align-items: center;
-  gap: 60px;
-  border-radius: 10px;
-  background: #ffd15b;
-  font-size: 0.875rem;
-  flex-shrink: 1;
 }
 .tags__cross {
   float: right;
-  margin: 0 22px;
+  padding-top: 19px;
+  margin-left: 22px;
   cursor: pointer;
 }
 
@@ -524,8 +516,11 @@ main {
 .filter {
   display: flex;
   flex-direction: column;
-  gap: 21px;
   margin-bottom: 53px;
+}
+.filter--with-tags {
+  margin-bottom: 43px;
+  gap: 21px;
 }
 .filter__filters-and-count {
   display: flex;
@@ -534,7 +529,6 @@ main {
 }
 .filter__container {
   display: flex;
-  flex-direction: row;
   gap: 64px;
 }
 .filter__wrapper {

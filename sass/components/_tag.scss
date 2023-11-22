@@ -1,33 +1,26 @@
-.tag-container {
+.tags-container {
   display: flex;
-  // gap: 40px 30px;
+  flex-wrap: wrap;
+  gap: 20px;
 }
 
 .tags {
-  margin-left: 10px;
+  display: inline-block;
+  // margin-left: 10px;
+  font-size: 0.9rem;
   height: 53px;
-  width: 200px;
+  line-height: 53px;
+  // width: 200px;
   background-color: $color-3;
   border-radius: 11px;
-  outline: 0;
-  border: 0;
-  &__picked {
-    // width: 200px;
-    // min-width: 200px;
-    height: 53px;
-    line-height: 53px;
-    padding: 0 18px;
-    align-items: center;
-    gap: 60px;
-    border-radius: 10px;
-    background: $color-3;
-    font-size: 0.875rem;
-    flex-shrink: 1;
-  }
+  // outline: 0;
+  // border: 0;
+  padding: 0 18px;
+
   &__cross {
     float: right;
-    // padding-top: 22px;
-    margin: 0 22px;
+    padding-top: 19px;
+    margin-left: 22px;
     cursor: pointer;
   }
 }
