@@ -116,6 +116,22 @@ main {
     &:hover {
       background-color: $color-3;
     }
+    // &__to-hide {
+    //   display: none;
+    // }
+    &--selected {
+      position: relative;
+      background-color: $color-3;
+      // cursor: unset;
+      overflow: hidden;
+
+      &::after {
+        content: url(/assets/icons/cross-tag-list.svg);
+        position: absolute;
+        right: 5px;
+        top: 3px;
+      }
+    }
   }
   &__magnifier {
     z-index: 3;

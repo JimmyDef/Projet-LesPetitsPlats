@@ -1,25 +1,28 @@
 import recipes from './../assets/data/recipes.js'
 import { renderCards } from './templates/card.js'
-import { capitalizeFirstLetter } from './utils/utils.js'
-
+import {
+  capitalizeFirstLetter,
+  clearSearchInput,
+  filterInputXss
+} from './utils/utils.js'
+import { researchByCategory } from './modules/filters.js'
 // DOM éléments-------------------------------------------
 const tagsSection = document.getElementById('tags-container')
 const filterSection = document.querySelector('section.filter')
-
-console.log('🚀 ~ filterSection:', filterSection)
-
 const ingredientsListDom = document.getElementById('ingredients-list')
-const ingredientsSearch = document.getElementById('ingredients-search')
+
+// const ingredientsSearch = document.getElementById('ingredients-search')
 const devicesListDom = document.getElementById('devices-list')
-const devicesSearch = document.getElementById('devices-search')
+// const devicesSearch = document.getElementById('devices-search')
 const ustensilsListDom = document.getElementById('ustensils-list')
-const ustensilsSearch = document.getElementById('ustensils-search')
+// const ustensilsSearch = document.getElementById('ustensils-search')
 const searchInput = document.getElementById('search')
 const headerForm = document.getElementById('header-form')
 // --------------------------------------------------------
 
 let searchResult
 let tagsList = []
+
 headerForm.addEventListener('click', (e) => {
   e.preventDefault()
 })
@@ -32,6 +35,7 @@ searchInput.addEventListener('click', (e) => {
 
 const initPage = () => {
   mainSearch(recipes)
+  researchByCategory()
 }
 
 // ----------------------------------------------------
@@ -41,21 +45,34 @@ const initPage = () => {
 const mainSearch = (dataRecipes) => {
   renderCards(dataRecipes)
   updateRecipeCounter(dataRecipes)
-  listHandler(dataRecipes)
+  filtersListHandler(dataRecipes)
   searchResult = dataRecipes
   searchInput.addEventListener('input', (e) => {
-    e.preventDefault()
-    const input = e.target.value.trim()
+    // e.preventDefault()
+    const input = filterInputXss(e.target.value.trim())
 
+    if (input === null || input.length < 3) {
+      searchResult = dataRecipes
+      tagsList = []
+      tagsSection.innerHTML = ' '
+      filtersListHandler(searchResult)
+      renderCards(searchResult, e.target.value)
+      updateRecipeCounter(searchResult)
+      return
+    }
     if (input !== null && input.length >= 3) {
       const searchedWordsArray = input.split(' ')
       const mergedResults = new Set()
 
-      filterByTitleAndDescription(dataRecipes, searchedWordsArray, mergedResults)
+      filterByTitleAndDescription(
+        dataRecipes,
+        searchedWordsArray,
+        mergedResults
+      )
       filterByIngredients(dataRecipes, searchedWordsArray, mergedResults)
 
       searchResult = [...mergedResults]
-      listHandler(searchResult)
+      filtersListHandler(searchResult)
       renderCards(searchResult, e.target.value)
       updateRecipeCounter(searchResult)
     }
@@ -113,14 +130,36 @@ const renderList = (data, elementList, tagType) => {
   const listarray = [...data]
   elementList.innerHTML = ''
   listarray.sort()
-  listarray.forEach((ingredient) => {
+  listarray.forEach((item) => {
+    if (tagsList.some((elt) => elt.tag === item)) {
+      const li = document.createElement('li')
+      li.className = 'filter__list-li filter__list-li--selected'
+      li.textContent = `${item}`
+      li.addEventListener('click', () => {
+        const tags = document.querySelectorAll('.tags')
+        tags.forEach((tag) => {
+          if (tag.textContent === li.textContent) tag.remove()
+        })
+
+        tagsList = tagsList.filter(
+          (tagOject) => tagOject.tag !== li.textContent
+        )
+        if (tagsList.length === 0) {
+          filterSection.classList.remove('filter--with-tags')
+        }
+        clearSearchInput(tagType)
+        updateRecipesListThroughTags()
+      })
+      elementList.prepend(li)
+      return
+    }
     const li = document.createElement('li')
     li.className = 'filter__list-li'
-    li.textContent = `${ingredient}`
+    li.textContent = `${item}`
 
     li.addEventListener('click', () => {
-      console.log('🚀 ~ li:', li)
-      tagHandler(ingredient, tagType)
+      tagHandler(item, tagType)
+      clearSearchInput(tagType)
       updateRecipesListThroughTags()
     })
 
@@ -136,7 +175,7 @@ const tagHandler = (tagName, type) => {
   filterSection.classList.add('filter--with-tags')
   const btn = document.createElement('div')
   btn.className = 'tags'
-  btn.innerHTML = `${tagName}`
+  btn.textContent = `${tagName}`
   const closeImg = document.createElement('img')
   closeImg.src = './assets/icons/cross.svg'
   closeImg.alt = 'croix supprimer le tag'
@@ -153,49 +192,16 @@ const tagHandler = (tagName, type) => {
   btn.appendChild(closeImg)
   tagsSection.appendChild(btn)
 }
-// ----------------------------------------------------
-// Fonction recherche par catégorie
-// ----------------------------------------------------
-const researchByCategory = () => {
-  const displayListBySearch = (list, event) => {
-    list.forEach((li) => {
-      if (
-        !li.textContent.toLowerCase().includes(event.target.value.toLowerCase())
-      ) {
-        li.style.display = 'none'
-      }
-      if (
-        li.textContent.toLowerCase().includes(event.target.value.toLowerCase())
-      ) {
-        li.style.display = 'block'
-      }
-    })
-  }
-  ingredientsSearch.addEventListener('input', (e) => {
-    const listOfLi = document.querySelectorAll('#ingredients-list li')
-    displayListBySearch(listOfLi, e)
-  })
-  devicesSearch.addEventListener('input', (e) => {
-    const listOfLi = document.querySelectorAll('#devices-list li')
-    displayListBySearch(listOfLi, e)
-  })
-  ustensilsSearch.addEventListener('input', (e) => {
-    const listOfLi = document.querySelectorAll('#ustensils-list li')
-    displayListBySearch(listOfLi, e)
-  })
-}
-researchByCategory()
+
 // ----------------------------------------------------
 // Fonction filtrage par Tags
 // ----------------------------------------------------
 const updateRecipesListThroughTags = () => {
   let initialSearchResult = searchResult || recipes
 
-  console.log('🚀 ~ initialSearchResult:', initialSearchResult)
-
   tagsList.forEach((tagObject) => {
     const tagWordsArray = tagObject.tag.split(' ')
-    if (tagObject.filter === 'ingredient') {
+    if (tagObject.filter === 'ingredients') {
       initialSearchResult = initialSearchResult.filter((recipe) => {
         return recipe.ingredients.some((obj) =>
           tagWordsArray.every((word) => {
@@ -204,12 +210,12 @@ const updateRecipesListThroughTags = () => {
         )
       })
     }
-    if (tagObject.filter === 'device') {
+    if (tagObject.filter === 'devices') {
       initialSearchResult = initialSearchResult.filter(
         (recipe) => recipe.appliance === tagObject.tag
       )
     }
-    if (tagObject.filter === 'ustensil') {
+    if (tagObject.filter === 'ustensils') {
       initialSearchResult = initialSearchResult.filter((recipe) => {
         return recipe.ustensils.some(
           (words) => capitalizeFirstLetter(words) === tagObject.tag
@@ -220,13 +226,13 @@ const updateRecipesListThroughTags = () => {
 
   updateRecipeCounter(initialSearchResult)
   renderCards(initialSearchResult)
-  listHandler(initialSearchResult)
+  filtersListHandler(initialSearchResult)
 }
 
 // ----------------------------------------------------
 // Fonction création list recherche par tag
 // ----------------------------------------------------
-const listHandler = (dataRecipes) => {
+const filtersListHandler = (dataRecipes) => {
   setIngredientsList(dataRecipes)
   setdevicesList(dataRecipes)
   setUstensilsList(dataRecipes)
@@ -243,7 +249,7 @@ const setIngredientsList = (data = recipes) => {
     })
   })
 
-  renderList(ingredListItem, ingredientsListDom, 'ingredient')
+  renderList(ingredListItem, ingredientsListDom, 'ingredients')
 }
 
 // ----------------------------------------------------
@@ -256,7 +262,7 @@ const setdevicesList = (data = recipes) => {
     devicesListItem.add(formattedString)
   })
 
-  renderList(devicesListItem, devicesListDom, 'device')
+  renderList(devicesListItem, devicesListDom, 'devices')
 }
 
 // ----------------------------------------------------
@@ -270,7 +276,7 @@ const setUstensilsList = (data = recipes) => {
       ustensilListItem.add(formattedString)
     })
   })
-  renderList(ustensilListItem, ustensilsListDom, 'ustensil')
+  renderList(ustensilListItem, ustensilsListDom, 'ustensils')
 }
 
 initPage()

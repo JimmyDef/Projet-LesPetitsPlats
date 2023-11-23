@@ -1,17 +1,18 @@
+import { filterInputXss } from './../utils/utils.js'
 // DOM Filter ingredients ------------------
 const ingredientsBtn = document.getElementById('ingredients-btn')
 // const ingredientsListDom = document.getElementById("ingredients-list");
-// const ingredientsSearch = document.getElementById("ingredients-search");
+const ingredientsSearch = document.getElementById('ingredients-search')
 
 // DOM Filter devices ------------------
 const devicesBtn = document.getElementById('devices-btn')
 // const devicesListDom = document.getElementById("devices-list");
-// const devicesSearch = document.getElementById("devices-search");
+const devicesSearch = document.getElementById('devices-search')
 
 // DOM Filter ustensils  ------------------
 const ustensilBtn = document.getElementById('ustensils-btn')
 // const ustensilsListDom = document.getElementById("ustensils-list");
-// const ustensilsSearch = document.getElementById("ustensils-search");
+const ustensilsSearch = document.getElementById('ustensils-search')
 // const search = document.getElementById("search");
 
 // const ustensilsFilter = document.getElementById("ustensils-filter");
@@ -75,3 +76,41 @@ document.addEventListener('click', (e) => {
     filterCollapsed.classList.remove('filter__is-collapsed')
   }
 })
+
+// ----------------------------------------------------
+// Fonction recherche par catégorie ingrédient / appareil / ustensils
+// ----------------------------------------------------
+const researchByCategory = () => {
+  ingredientsSearch.addEventListener('input', (e) => {
+    const input = filterInputXss(e.target.value)
+    const listOfLi = document.querySelectorAll('#ingredients-list li:not(.filter__list-li--selected)')
+    displayListBySearch(listOfLi, input)
+  })
+  devicesSearch.addEventListener('input', (e) => {
+    const input = filterInputXss(e.target.value)
+
+    const listOfLi = document.querySelectorAll('#devices-list li:not(.filter__list-li--selected)')
+    displayListBySearch(listOfLi, input)
+  })
+  ustensilsSearch.addEventListener('input', (e) => {
+    const input = filterInputXss(e.target.value)
+    const listOfLi = document.querySelectorAll('#ustensils-list li:not(.filter__list-li--selected)')
+    displayListBySearch(listOfLi, input)
+  })
+}
+
+// ----------------------------------------------------
+// Fonction display de <li> pour la recherche par catégorie
+
+const displayListBySearch = (list, event) => {
+  list.forEach((li) => {
+    if (!li.textContent.toLowerCase().includes(event.toLowerCase())) {
+      li.style.display = 'none'
+    }
+    if (li.textContent.toLowerCase().includes(event.toLowerCase())) {
+      li.style.display = 'block'
+    }
+  })
+}
+
+export { researchByCategory }

@@ -26,8 +26,6 @@ const mainSearch = (dataRecipes, updatedResult) => {
   })
   updatedResult = dataRecipes
 
-  console.log('🚀 ~ updatedResult:', updatedResult)
-
   renderCards(dataRecipes)
   updateRecipeCounter(dataRecipes)
 }

@@ -613,6 +613,17 @@ main {
 .filter__list-li:focus, .filter__list-li:hover {
   background-color: #ffd15b;
 }
+.filter__list-li--selected {
+  position: relative;
+  background-color: #ffd15b;
+  overflow: hidden;
+}
+.filter__list-li--selected::after {
+  content: url(/assets/icons/cross-tag-list.svg);
+  position: absolute;
+  right: 5px;
+  top: 3px;
+}
 .filter__magnifier {
   z-index: 3;
   position: absolute;
