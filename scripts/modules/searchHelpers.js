@@ -1,38 +1,63 @@
 // ------------------------------------------------------
 // Fonction Recherche  dans les titres et descriptions
 // ------------------------------------------------------
+const filterByTitleAndDescription = (
+  data,
+  searchedWordsArray,
+  mergedResults
+) => {
+  for (const recipe of data) {
+    let match = true
 
-const filterByTitleAndDescription = (data, searchedWordsArray, mergedResults) => {
-  data.forEach((recipe) => {
-    if (
-      searchedWordsArray.every((word) => {
-        return (
-          recipe.name.toLowerCase().includes(word.toLowerCase()) ||
-          recipe.description.toLowerCase().includes(word.toLowerCase())
-        )
-      })
-    ) {
+    for (const word of searchedWordsArray) {
+      const lowerCaseWord = word.toLowerCase()
+      const lowerCaseName = recipe.name.toLowerCase()
+      const lowerCaseDescription = recipe.description.toLowerCase()
+
+      const nameIncludesWord = lowerCaseName.indexOf(lowerCaseWord) !== -1
+      const descriptionIncludesWord =
+        lowerCaseDescription.indexOf(lowerCaseWord) !== -1
+
+      if (!(nameIncludesWord || descriptionIncludesWord)) {
+        match = false
+        break
+      }
+    }
+
+    if (match) {
       mergedResults.add(recipe)
     }
-  })
+  }
 }
 // ------------------------------------------------------
 // Fonction Recherche  dans les listes d'ingrédients
 // ------------------------------------------------------
 
 const filterByIngredients = (data, searchedWordsArray, mergedResults) => {
-  const ingredientsResults = data.filter((recipe) => {
-    return recipe.ingredients.some((obj) =>
+  for (const recipe of data) {
+    let hasMatchingIngredient = false
 
-      searchedWordsArray.every((word) => {
-        return obj.ingredient.toLowerCase().includes(word.toLowerCase())
-      })
-    )
-  })
+    for (const { ingredient } of recipe.ingredients) {
+      let isMatchingIngredient = true
 
-  ingredientsResults.forEach((recipe) => mergedResults.add(recipe))
+      for (const word of searchedWordsArray) {
+        if (!ingredient.toLowerCase().includes(word.toLowerCase())) {
+          isMatchingIngredient = false
+          break
+        }
+      }
+
+      if (isMatchingIngredient) {
+        hasMatchingIngredient = true
+        break
+      }
+    }
+
+    if (hasMatchingIngredient) {
+      mergedResults.add(recipe)
+    }
+  }
 }
-
 // ----------------------------------------------------
 // Fonction compteur de recette affichées
 // ----------------------------------------------------

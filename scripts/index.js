@@ -74,7 +74,7 @@ searchInput.addEventListener('input', (e) => {
     const mergedResults = new Set()
 
     filterByTitleAndDescription(recipes, searchedWordsArray, mergedResults)
-    filterByIngredients(recipes, searchedWordsArray, mergedResults)
+    // filterByIngredients(recipes, searchedWordsArray, mergedResults)
 
     searchResult = [...mergedResults]
     renderRecipePage(searchResult, e.target.value)
