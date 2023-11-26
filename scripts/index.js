@@ -1,126 +1,85 @@
-import recipes from './../assets/data/recipes.js'
+import { getData } from './utils/fetch.js'
+import {
+  filterByIngredients,
+  updateRecipeCounter,
+  filterByTitleAndDescription
+} from './modules/searchHelpers.js'
 import { renderCards } from './templates/card.js'
 import {
   capitalizeFirstLetter,
   clearSearchInput,
   filterInputXss
 } from './utils/utils.js'
-import { researchByCategory } from './modules/filters.js'
+import { handleCategorySearchFilter } from './modules/filters.js'
+
 // DOM éléments-------------------------------------------
 const tagsSection = document.getElementById('tags-container')
 const filterSection = document.querySelector('section.filter')
 const ingredientsListDom = document.getElementById('ingredients-list')
-
-// const ingredientsSearch = document.getElementById('ingredients-search')
 const devicesListDom = document.getElementById('devices-list')
-// const devicesSearch = document.getElementById('devices-search')
 const ustensilsListDom = document.getElementById('ustensils-list')
-// const ustensilsSearch = document.getElementById('ustensils-search')
 const searchInput = document.getElementById('search')
 const headerForm = document.getElementById('header-form')
+const search = document.getElementById('search')
+const searchClearBtn = document.querySelector('.header__input-clear-btn')
+
 // --------------------------------------------------------
 
+const recipes = await getData('./../assets/data/recipes.json')
 let searchResult
 let tagsList = []
 
-headerForm.addEventListener('click', (e) => {
-  e.preventDefault()
-})
-searchInput.addEventListener('click', (e) => {
-  e.target.value = ''
-  tagsSection.innerHTML = ' '
-  tagsList = []
-  mainSearch(recipes)
-})
+//  searchResult est une variable globale qui contient une liste des recettes correspondant au résultat de la recherche principale.
+//  tagsList est une variable globale qui contient une liste des tags sélectionnés.
+//  ex: tagsList = [{tag: 'tomate', filter: 'ingredients'}]]
+//  La recherche par tags est effectuée sur la variable searchResult si elle existe, sinon sur la liste complète des recettes.
 
 const initPage = () => {
-  mainSearch(recipes)
-  researchByCategory()
+  renderRecipePage(recipes)
+  handleCategorySearchFilter()
+  headerForm.addEventListener('click', (e) => {
+    e.preventDefault()
+  })
+  searchClearBtn.addEventListener('click', () => {
+    search.value = ''
+    renderRecipePage(recipes)
+  })
 }
 
 // ----------------------------------------------------
-// Fonction gestion bar de recherche principal
+// Fonction render cards / compteur de recette / listes des filtres
 // ----------------------------------------------------
 
-const mainSearch = (dataRecipes) => {
-  renderCards(dataRecipes)
+const renderRecipePage = (dataRecipes, inputValue) => {
+  renderCards(dataRecipes, inputValue)
   updateRecipeCounter(dataRecipes)
   filtersListHandler(dataRecipes)
-  searchResult = dataRecipes
-  searchInput.addEventListener('input', (e) => {
-    // e.preventDefault()
-    const input = filterInputXss(e.target.value.trim())
-
-    if (input === null || input.length < 3) {
-      searchResult = dataRecipes
-      tagsList = []
-      tagsSection.innerHTML = ' '
-      filtersListHandler(searchResult)
-      renderCards(searchResult, e.target.value)
-      updateRecipeCounter(searchResult)
-      return
-    }
-    if (input !== null && input.length >= 3) {
-      const searchedWordsArray = input.split(' ')
-      const mergedResults = new Set()
-
-      filterByTitleAndDescription(
-        dataRecipes,
-        searchedWordsArray,
-        mergedResults
-      )
-      filterByIngredients(dataRecipes, searchedWordsArray, mergedResults)
-
-      searchResult = [...mergedResults]
-      filtersListHandler(searchResult)
-      renderCards(searchResult, e.target.value)
-      updateRecipeCounter(searchResult)
-    }
-  })
 }
-
-// ------------------------------------------------------
-// Fonction Recherche  dans les titres et descriptions
-// ------------------------------------------------------
-
-const filterByTitleAndDescription = (data, searchedWordsArray, mergedResults) => {
-  data.forEach((recipe) => {
-    if (
-      searchedWordsArray.every((word) => {
-        return (
-          recipe.name.toLowerCase().includes(word.toLowerCase()) ||
-          recipe.description.toLowerCase().includes(word.toLowerCase())
-        )
-      })
-    ) {
-      mergedResults.add(recipe)
-    }
-  })
-}
-// ------------------------------------------------------
-// Fonction Recherche  dans les listes d'ingrédients
-// ------------------------------------------------------
-const filterByIngredients = (data, searchedWordsArray, mergedResults) => {
-  // if(!Array.isArray(searchedWordsArray))  {}
-  const ingredientsResults = data.filter((recipe) => {
-    return recipe.ingredients.some((obj) =>
-
-      searchedWordsArray.every((word) => {
-        return obj.ingredient.toLowerCase().includes(word.toLowerCase())
-      })
-    )
-  })
-
-  ingredientsResults.forEach((recipe) => mergedResults.add(recipe))
-}
-
 // ----------------------------------------------------
-// Fonction compteur de recette affichées
+//  Gestion bar de recherche principal
 // ----------------------------------------------------
-const updateRecipeCounter = (data) => {
-  const recipeCounter = document.getElementById('recipeCounter')
-  recipeCounter.innerText = `${data.length} recettes`
-}
+
+searchInput.addEventListener('input', (e) => {
+  const input = filterInputXss(e.target.value.trim())
+  searchResult = recipes
+  tagsList = []
+  tagsSection.innerHTML = ' '
+
+  if (input === null || input.length < 3) {
+    renderRecipePage(recipes, e.target.value)
+    return
+  }
+  if (input !== null && input.length >= 3) {
+    const searchedWordsArray = input.split(' ')
+    const mergedResults = new Set()
+
+    filterByTitleAndDescription(recipes, searchedWordsArray, mergedResults)
+    filterByIngredients(recipes, searchedWordsArray, mergedResults)
+
+    searchResult = [...mergedResults]
+    renderRecipePage(searchResult, e.target.value)
+  }
+})
 
 // ----------------------------------------------------
 // Fonction display des <li> recherche avancée
@@ -131,6 +90,9 @@ const renderList = (data, elementList, tagType) => {
   elementList.innerHTML = ''
   listarray.sort()
   listarray.forEach((item) => {
+    // Si l'item figure dans les tags => déplacer en haut de la liste et ajout d'un bouton de suppression.
+    // Si l'item ne figure pas dans les tags => ajout d'un eventListener pour ajouter le tag au click.
+
     if (tagsList.some((elt) => elt.tag === item)) {
       const li = document.createElement('li')
       li.className = 'filter__list-li filter__list-li--selected'
@@ -175,7 +137,7 @@ const tagHandler = (tagName, type) => {
   filterSection.classList.add('filter--with-tags')
   const btn = document.createElement('div')
   btn.className = 'tags'
-  btn.textContent = `${tagName}`
+  btn.innerText = `${tagName}`
   const closeImg = document.createElement('img')
   closeImg.src = './assets/icons/cross.svg'
   closeImg.alt = 'croix supprimer le tag'
@@ -196,11 +158,16 @@ const tagHandler = (tagName, type) => {
 // ----------------------------------------------------
 // Fonction filtrage par Tags
 // ----------------------------------------------------
+//  Filtrage des recettes en parcourant la liste des tags.
+//  Pour chaque tag, on filtre les recettes en fonction de leur catégorie.
+//  Filtrage effectué sur le résultat d'une recherche ou sur la liste complète des recettes.
+//  Le compteur, la liste des filtres et les cartes sont mis à jour.
+
 const updateRecipesListThroughTags = () => {
   let initialSearchResult = searchResult || recipes
-
   tagsList.forEach((tagObject) => {
     const tagWordsArray = tagObject.tag.split(' ')
+
     if (tagObject.filter === 'ingredients') {
       initialSearchResult = initialSearchResult.filter((recipe) => {
         return recipe.ingredients.some((obj) =>
@@ -210,11 +177,13 @@ const updateRecipesListThroughTags = () => {
         )
       })
     }
+
     if (tagObject.filter === 'devices') {
       initialSearchResult = initialSearchResult.filter(
         (recipe) => recipe.appliance === tagObject.tag
       )
     }
+
     if (tagObject.filter === 'ustensils') {
       initialSearchResult = initialSearchResult.filter((recipe) => {
         return recipe.ustensils.some(
@@ -223,22 +192,17 @@ const updateRecipesListThroughTags = () => {
       })
     }
   })
-
-  updateRecipeCounter(initialSearchResult)
-  renderCards(initialSearchResult)
-  filtersListHandler(initialSearchResult)
+  renderRecipePage(initialSearchResult)
 }
 
 // ----------------------------------------------------
-// Fonction création list recherche par tag
+// Fonction création listes recherche par tag
 // ----------------------------------------------------
 const filtersListHandler = (dataRecipes) => {
   setIngredientsList(dataRecipes)
   setdevicesList(dataRecipes)
   setUstensilsList(dataRecipes)
 }
-// ----------------------------------------------------
-// Création liste ingrédient
 
 const setIngredientsList = (data = recipes) => {
   const ingredListItem = new Set()
@@ -252,9 +216,6 @@ const setIngredientsList = (data = recipes) => {
   renderList(ingredListItem, ingredientsListDom, 'ingredients')
 }
 
-// ----------------------------------------------------
-// Création liste Appareils
-
 const setdevicesList = (data = recipes) => {
   const devicesListItem = new Set()
   data.forEach((recipe) => {
@@ -264,9 +225,6 @@ const setdevicesList = (data = recipes) => {
 
   renderList(devicesListItem, devicesListDom, 'devices')
 }
-
-// ----------------------------------------------------
-// Création liste ustensiles
 
 const setUstensilsList = (data = recipes) => {
   const ustensilListItem = new Set()

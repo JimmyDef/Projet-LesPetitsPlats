@@ -459,6 +459,7 @@ header {
 }
 
 .header {
+  position: relative;
   max-width: 1440px;
   margin: 0 auto;
 }
@@ -481,6 +482,7 @@ header {
   border-radius: 5px;
   overflow: hidden;
   display: flex;
+  align-items: center;
   width: clamp(200px, 75vw, 954px);
   margin: 0 auto;
   height: 72px;
@@ -497,14 +499,19 @@ header {
 .header__input-search:focus {
   outline: none;
 }
-.header__btn {
-  cursor: pointer;
+.header__magnifier {
   border: 0;
   background: white;
-  margin: 0;
-  width: 70px;
+  margin: 0 10px;
+  padding: 2px 0 0 0;
+}
+.header__input-clear-btn {
+  cursor: pointer;
+  width: 20px;
   height: 100%;
-  padding: 0 10px 0 0;
+  position: absolute;
+  right: 90px;
+  top: 0;
 }
 
 main {

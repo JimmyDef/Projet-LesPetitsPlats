@@ -5,14 +5,13 @@ main {
 }
 
 .filter {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 53px;
   &--with-tags {
     margin-bottom: 43px;
     gap: 21px;
   }
-  display: flex;
-  flex-direction: column;
-
-  margin-bottom: 53px;
   &__filters-and-count {
     display: flex;
     justify-content: space-between;
@@ -27,12 +26,10 @@ main {
     position: relative;
     width: 195px;
     max-height: 315px;
-    // height: 50px;
     border-radius: 11px;
     background-color: white;
   }
   &__btn {
-    // z-index: -1;
     width: 100%;
     height: 56px;
     padding: 0 16px;
@@ -44,7 +41,6 @@ main {
     cursor: pointer;
     border-radius: 11px;
   }
-
   &__chevron {
     z-index: 3;
     position: absolute;
@@ -56,7 +52,6 @@ main {
       transform: rotate(0.5turn);
     }
   }
-
   &__recipe-count {
     font: 400 1.313rem "Anton", sans-serif;
     padding-top: 4px;
@@ -80,13 +75,12 @@ main {
 
   &__search-wrapper {
     position: relative;
-    // display: none;
+
     width: 100%;
     padding: 0 16px;
     margin: 0 0 16px;
   }
   &__search {
-    // display: none;
     width: 100%;
     font-size: 0.875rem;
     color: $color-2;
@@ -111,20 +105,14 @@ main {
     font-size: 0.875rem;
     font-weight: 400;
     padding: 0 15px;
-
     &:focus,
     &:hover {
       background-color: $color-3;
     }
-    // &__to-hide {
-    //   display: none;
-    // }
     &--selected {
       position: relative;
       background-color: $color-3;
-      // cursor: unset;
       overflow: hidden;
-
       &::after {
         content: url(/assets/icons/cross-tag-list.svg);
         position: absolute;

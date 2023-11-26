@@ -2,19 +2,19 @@
 // Fonction display des articles
 // ----------------------------------------------------
 
-const renderCards = (recipesData, string) => {
+const renderCards = (recipesData, inputValue) => {
   const articleSection = document.getElementById('card-container')
 
   if (!recipesData || recipesData.length === 0) {
-    articleSection.innerHTML = `<p class="cards-container__no-match-msg">Aucune recette ne contient <span class="cards-container__span">‘${string} ’</span> </br> vous pouvez chercher «
+    articleSection.innerHTML = `<p class="cards-container__no-match-msg">Aucune recette ne contient <span class="cards-container__span">‘${inputValue} ’</span> </br> vous pouvez chercher «
 tarte aux pommes », « poisson », etc.<p>`
-  } else {
-    articleSection.innerHTML = ' '
-    recipesData.forEach((data) => {
-      const card = getCardDom(data)
-      articleSection.appendChild(card)
-    })
+    return
   }
+  articleSection.innerHTML = ' '
+  recipesData.forEach((data) => {
+    const card = getCardDom(data)
+    articleSection.appendChild(card)
+  })
 }
 
 // -----------------------------------------------------------
@@ -24,6 +24,7 @@ tarte aux pommes », « poisson », etc.<p>`
 const getCardDom = (data) => {
   const { image, name, ingredients, description, time } = data
   const imgUrl = `./assets/images/${image}`
+  const fragment = document.createDocumentFragment()
   const article = document.createElement('article')
   article.className = 'card'
   article.innerHTML = ` 
@@ -39,6 +40,9 @@ const getCardDom = (data) => {
 
   const ingredientsWrapper = document.createElement('div')
   ingredientsWrapper.className = 'card__ingredients-wrapper'
+
+  // Boucle pour générer le détails des ingrédients ----------
+
   ingredients.forEach((elt) => {
     const div = document.createElement('div')
     div.className = 'card__ingredient-details'
@@ -49,7 +53,6 @@ const getCardDom = (data) => {
     } else {
       quantityHtml = '<span>-</span>'
     }
-
     div.innerHTML = `
       <p>${elt.ingredient}</p>${quantityHtml}`
 
@@ -57,7 +60,9 @@ const getCardDom = (data) => {
   })
 
   article.appendChild(ingredientsWrapper)
-  return article
+  // Fragment pour optimiser la performance --------------------
+  fragment.appendChild(article)
+  return fragment
 }
 
 export { renderCards }

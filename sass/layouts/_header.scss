@@ -6,6 +6,7 @@ header {
   background-size: cover;
 }
 .header {
+  position: relative;
   max-width: 1440px;
   margin: 0 auto;
   &__logo {
@@ -28,12 +29,12 @@ header {
     border-radius: 5px;
     overflow: hidden;
     display: flex;
+    align-items: center;
     width: clamp(200px, 75vw, 954px);
     margin: 0 auto;
     height: 72px;
   }
-  // &__label {
-  // }
+
   &__input-search {
     padding-left: 35px;
     border: 0;
@@ -46,13 +47,18 @@ header {
       outline: none;
     }
   }
-  &__btn {
-    cursor: pointer;
+  &__magnifier {
     border: 0;
     background: white;
-    margin: 0;
-    width: 70px;
+    margin: 0 10px;
+    padding: 2px 0 0 0;
+  }
+  &__input-clear-btn {
+    cursor: pointer;
+    width: 20px;
     height: 100%;
-    padding: 0 10px 0 0;
+    position: absolute;
+    right: 90px;
+    top: 0;
   }
 }

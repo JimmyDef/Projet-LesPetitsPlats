@@ -1,25 +1,20 @@
 import { filterInputXss } from './../utils/utils.js'
+
 // DOM Filter ingredients ------------------
 const ingredientsBtn = document.getElementById('ingredients-btn')
-// const ingredientsListDom = document.getElementById("ingredients-list");
 const ingredientsSearch = document.getElementById('ingredients-search')
-
+const ingredientsFilterDom = document.getElementById('ingredients-filter')
 // DOM Filter devices ------------------
 const devicesBtn = document.getElementById('devices-btn')
-// const devicesListDom = document.getElementById("devices-list");
 const devicesSearch = document.getElementById('devices-search')
-
+const devicesFilterDom = document.getElementById('devices-filter')
 // DOM Filter ustensils  ------------------
 const ustensilBtn = document.getElementById('ustensils-btn')
-// const ustensilsListDom = document.getElementById("ustensils-list");
 const ustensilsSearch = document.getElementById('ustensils-search')
-// const search = document.getElementById("search");
-
-// const ustensilsFilter = document.getElementById("ustensils-filter");
-// const devicesFilter = document.getElementById("devices-filter");
+const ustensilsFilterDom = document.getElementById('ustensils-filter')
 
 // ----------------------------------------------------
-// Fonction display un menu liste
+// Fonction display  menu déroulant
 // ----------------------------------------------------
 
 const expandList = (filterType) => {
@@ -31,7 +26,7 @@ const expandList = (filterType) => {
     .classList.toggle('filter__is-collapsed')
 }
 // ----------------------------------------------------
-// Fonction fermer un menu liste
+// Fonction fermer un menu déroulant
 // ----------------------------------------------------
 const hideList = (filterType) => {
   document
@@ -61,9 +56,17 @@ ustensilBtn.addEventListener('click', () => {
 })
 
 // ----------------------------------------------------
-// Fermeture des liste en cas de clic externe
+// Fermeture des menus déroulants et clear de la recherche  en cas de clic externe
 // ----------------------------------------------------
+
 document.addEventListener('click', (e) => {
+  const isClickInsideInsideInputIngredients = ingredientsFilterDom.contains(
+    e.target
+  )
+  const isClickInsideInsideInputDevices = devicesFilterDom.contains(e.target)
+  const isClickInsideInsideInputUstensils = ustensilsFilterDom.contains(
+    e.target
+  )
   const filterBoxes = document.querySelectorAll('.filter__container')
   const filterCollapsed = document.querySelector('.filter__is-collapsed')
   const filterCollapsedChevron = document.querySelector('.filter__chevron--up')
@@ -75,42 +78,54 @@ document.addEventListener('click', (e) => {
     filterCollapsedChevron.classList.remove('filter__chevron--up')
     filterCollapsed.classList.remove('filter__is-collapsed')
   }
+  if (!isClickInsideInsideInputIngredients) {
+    ingredientsSearch.value = ''
+    filterListDisplay('ingredients', '')
+  }
+  if (!isClickInsideInsideInputDevices) {
+    devicesSearch.value = ''
+    filterListDisplay('devices', '')
+  }
+  if (!isClickInsideInsideInputUstensils) {
+    ustensilsSearch.value = ''
+    filterListDisplay('ustensils', '')
+  }
 })
 
 // ----------------------------------------------------
 // Fonction recherche par catégorie ingrédient / appareil / ustensils
 // ----------------------------------------------------
-const researchByCategory = () => {
+
+const handleCategorySearchFilter = () => {
   ingredientsSearch.addEventListener('input', (e) => {
     const input = filterInputXss(e.target.value)
-    const listOfLi = document.querySelectorAll('#ingredients-list li:not(.filter__list-li--selected)')
-    displayListBySearch(listOfLi, input)
+    filterListDisplay('ingredients', input)
   })
   devicesSearch.addEventListener('input', (e) => {
     const input = filterInputXss(e.target.value)
-
-    const listOfLi = document.querySelectorAll('#devices-list li:not(.filter__list-li--selected)')
-    displayListBySearch(listOfLi, input)
+    filterListDisplay('devices', input)
   })
   ustensilsSearch.addEventListener('input', (e) => {
     const input = filterInputXss(e.target.value)
-    const listOfLi = document.querySelectorAll('#ustensils-list li:not(.filter__list-li--selected)')
-    displayListBySearch(listOfLi, input)
+    filterListDisplay('ustensils', input)
   })
 }
 
 // ----------------------------------------------------
-// Fonction display de <li> pour la recherche par catégorie
+// Fonction display / hide des <li> pour la recherche par catégorie
 
-const displayListBySearch = (list, event) => {
-  list.forEach((li) => {
-    if (!li.textContent.toLowerCase().includes(event.toLowerCase())) {
+const filterListDisplay = (category, e) => {
+  const listOfLi = document.querySelectorAll(
+    `#${category}-list li:not(.filter__list-li--selected)`
+  )
+  listOfLi.forEach((li) => {
+    if (!li.textContent.toLowerCase().includes(e.toLowerCase())) {
       li.style.display = 'none'
     }
-    if (li.textContent.toLowerCase().includes(event.toLowerCase())) {
+    if (li.textContent.toLowerCase().includes(e.toLowerCase())) {
       li.style.display = 'block'
     }
   })
 }
 
-export { researchByCategory }
+export { handleCategorySearchFilter }
