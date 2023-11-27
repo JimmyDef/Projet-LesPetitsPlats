@@ -11,10 +11,13 @@ const filterByTitleAndDescription = (
 
     for (const word of searchedWordsArray) {
       const lowerCaseWord = word.toLowerCase()
+
       const lowerCaseName = recipe.name.toLowerCase()
+
       const lowerCaseDescription = recipe.description.toLowerCase()
 
       const nameIncludesWord = lowerCaseName.indexOf(lowerCaseWord) !== -1
+
       const descriptionIncludesWord =
         lowerCaseDescription.indexOf(lowerCaseWord) !== -1
 
