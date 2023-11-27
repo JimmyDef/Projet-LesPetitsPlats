@@ -31,6 +31,7 @@ html {
 }
 
 body {
+  min-width: 425px;
   margin: 0 auto;
   font-family: "Manrope", sans-serif;
 }
@@ -364,11 +365,12 @@ template {
 }
 
 .card {
+  margin: 0 auto;
   position: relative;
-  width: 380px;
+  max-width: 400px;
   height: 100%;
   border-radius: 21px;
-  padding-bottom: 60px;
+  padding-bottom: 40px;
   box-shadow: 0px 4px 34px 30px rgba(0, 0, 0, 0.07);
   overflow: hidden;
   background-color: white;
@@ -483,7 +485,7 @@ header {
   overflow: hidden;
   display: flex;
   align-items: center;
-  width: clamp(200px, 75vw, 954px);
+  width: clamp(30px, 75vw, 954px);
   margin: 0 auto;
   height: 72px;
 }
@@ -514,10 +516,57 @@ header {
   top: 0;
 }
 
+@media screen and (max-width: 1300px) {
+  header {
+    width: 100%;
+    height: 450px;
+    margin: 0;
+  }
+  .header h1 {
+    font-size: clamp(1.7rem, 4vw, 2.5rem);
+    margin: 50px auto 30px;
+    padding: 0 20px;
+    max-width: 670px;
+  }
+}
+@media screen and (max-width: 1024px) {
+  header {
+    height: 380px;
+  }
+  .header h1 {
+    font-size: clamp(1.7rem, 4vw, 2.5rem);
+    margin: 50px auto;
+    padding: 0 20px;
+    max-width: 670px;
+  }
+  .header__logo {
+    margin-top: 50px;
+  }
+  .header__form {
+    height: 50px;
+  }
+  .header__magnifier img {
+    height: 40px;
+  }
+}
+@media screen and (max-width: 800px) {
+  .header {
+    height: 300px;
+  }
+  .header__input-search {
+    padding-left: 25px;
+    font-size: 0.875rem;
+  }
+}
+@media screen and (max-width: 500px) {
+  .header__magnifier img {
+    height: 20px;
+  }
+}
 main {
-  max-width: 1440px;
+  max-width: 1240px;
   margin: 0 auto;
-  padding: 20px 100px 200px;
+  padding: 20px 0 200px;
 }
 
 .filter {
@@ -638,11 +687,15 @@ main {
   right: 25px;
 }
 
+.filter__is-collapsed {
+  display: flex;
+}
+
 .cards-container {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  gap: 60px 48px;
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
   justify-content: space-between;
-  gap: 48px;
 }
 .cards-container__no-match-msg {
   width: 70vw;
@@ -653,8 +706,32 @@ main {
   font-weight: bolder;
 }
 
-.filter__is-collapsed {
-  display: flex;
+@media screen and (max-width: 1300px) {
+  main {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 20px 40px 200px;
+  }
+  .card {
+    max-width: 460px;
+  }
+  .filter__container {
+    gap: 5vw;
+  }
+}
+@media screen and (max-width: 890px) {
+  .filter__container {
+    gap: 5vw;
+    margin-bottom: 20px;
+  }
+  .filter__filters-and-count {
+    display: unset;
+  }
+}
+@media screen and (max-width: 625px) {
+  .filter__container {
+    display: none;
+  }
 }
 
 /*# sourceMappingURL=style.css.map */
