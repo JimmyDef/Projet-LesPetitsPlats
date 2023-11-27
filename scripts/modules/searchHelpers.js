@@ -11,13 +11,9 @@ const filterByTitleAndDescription = (
 
     for (const word of searchedWordsArray) {
       const lowerCaseWord = word.toLowerCase()
-
       const lowerCaseName = recipe.name.toLowerCase()
-
       const lowerCaseDescription = recipe.description.toLowerCase()
-
       const nameIncludesWord = lowerCaseName.indexOf(lowerCaseWord) !== -1
-
       const descriptionIncludesWord =
         lowerCaseDescription.indexOf(lowerCaseWord) !== -1
 
@@ -39,10 +35,8 @@ const filterByTitleAndDescription = (
 const filterByIngredients = (data, searchedWordsArray, mergedResults) => {
   for (const recipe of data) {
     let hasMatchingIngredient = false
-
     for (const { ingredient } of recipe.ingredients) {
       let isMatchingIngredient = true
-
       for (const word of searchedWordsArray) {
         if (!ingredient.toLowerCase().includes(word.toLowerCase())) {
           isMatchingIngredient = false
