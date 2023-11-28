@@ -25,7 +25,9 @@ const searchClearBtn = document.querySelector('.header__input-clear-btn')
 
 // --------------------------------------------------------
 
-const recipes = await getData('./../assets/data/recipes.json')
+const recipes = await getData(
+  'https://jimmydef.net/lespetitsplats/assets/data/recipes.json'
+)
 let searchResult
 let tagsList = []
 

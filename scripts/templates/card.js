@@ -23,7 +23,7 @@ tarte aux pommes », « poisson », etc.<p>`
 
 const getCardDom = (data) => {
   const { image, name, ingredients, description, time } = data
-  const imgUrl = `./assets/images/${image}`
+  const imgUrl = `../assets/images/${image}`
   const fragment = document.createDocumentFragment()
   const article = document.createElement('article')
   article.className = 'card'
