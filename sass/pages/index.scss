@@ -172,6 +172,17 @@ main {
     &__filters-and-count {
       display: unset;
     }
+    &__btn {
+      height: 40px;
+      line-height: 40px;
+      font-size: 0.875rem;
+    }
+    &__collapser {
+      top: 40px;
+    }
+    &__chevron {
+      top: 16px;
+    }
   }
 }
 @media screen and (max-width: 625px) {
