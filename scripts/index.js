@@ -8,7 +8,7 @@ import { renderCards } from './templates/card.js'
 import {
   capitalizeFirstLetter,
   clearSearchInput,
-  filterInputXss
+  sanitizeForXSS 
 } from './utils/utils.js'
 import { handleCategorySearchFilter } from './modules/filters.js'
 
@@ -62,7 +62,7 @@ const renderRecipePage = (dataRecipes, inputValue) => {
 // ----------------------------------------------------
 
 searchInput.addEventListener('input', (e) => {
-  const input = filterInputXss(e.target.value.trim())
+  const input = sanitizeForXSS (e.target.value.trim())
   searchResult = recipes
   tagsList = []
   tagsSection.innerHTML = ' '

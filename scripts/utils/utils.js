@@ -15,6 +15,6 @@ export const clearSearchInput = (inputName) => {
 // ----------------------------------------------------
 // Fonction echappement caractères spéciaux
 // ----------------------------------------------------
-export const filterInputXss = (input) => {
+export const sanitizeForXSS = (input) => {
   return input.replace(/[<>&"/=]/g, '')
 }
