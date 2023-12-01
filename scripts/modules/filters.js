@@ -1,4 +1,4 @@
-import { sanitizeForXSS  } from './../utils/utils.js'
+import { sanitizeForXSS } from './../utils/utils.js'
 
 // DOM Filter ingredients ------------------
 const ingredientsBtn = document.getElementById('ingredients-btn')
@@ -98,15 +98,15 @@ document.addEventListener('click', (e) => {
 
 const handleCategorySearchFilter = () => {
   ingredientsSearch.addEventListener('input', (e) => {
-    const input = sanitizeForXSS (e.target.value)
+    const input = sanitizeForXSS(e.target.value)
     filterListDisplay('ingredients', input)
   })
   devicesSearch.addEventListener('input', (e) => {
-    const input = sanitizeForXSS (e.target.value)
+    const input = sanitizeForXSS(e.target.value)
     filterListDisplay('devices', input)
   })
   ustensilsSearch.addEventListener('input', (e) => {
-    const input = sanitizeForXSS (e.target.value)
+    const input = sanitizeForXSS(e.target.value)
     filterListDisplay('ustensils', input)
   })
 }
