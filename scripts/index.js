@@ -21,7 +21,6 @@ const ustensilsListDom = document.getElementById('ustensils-list')
 const searchInput = document.getElementById('search')
 const headerForm = document.getElementById('header-form')
 const search = document.getElementById('search')
-const searchClearBtn = document.querySelector('.header__input-clear-btn')
 
 // --------------------------------------------------------
 
@@ -41,12 +40,9 @@ const initPage = () => {
   handleCategorySearchFilter()
   headerForm.addEventListener('keydown', (e) => {
     if (e.key === 'Enter') {
-      e.preventDefault() // Empêche la soumission du formulaire via la touche Enter
+      e.preventDefault()
     }
   })
-  // headerForm.addEventListener('click', (e) => {
-  //   e.preventDefault()
-  // })
 }
 
 // ----------------------------------------------------
