@@ -7,23 +7,24 @@
 }
 html {
   background-color: #ededed;
+  overflow-y: scroll;
 }
 body {
   min-width: 390px;
   margin: 0 auto;
-  font-family: "Manrope", sans-serif;
+  font-family: 'Manrope', sans-serif;
 }
 
 a {
   text-decoration: none;
 }
 h1 {
-  font: 400 2.75rem "Anton", sans-serif;
+  font: 400 2.75rem 'Anton', sans-serif;
   color: $color-3;
 }
 
 h2 {
-  font: 400 1.125rem "Anton", sans-serif;
+  font: 400 1.125rem 'Anton', sans-serif;
   color: $color-1;
 }
 ul {

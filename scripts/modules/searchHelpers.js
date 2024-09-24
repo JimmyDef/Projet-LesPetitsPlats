@@ -2,7 +2,11 @@
 // Fonction Recherche  dans les titres et descriptions
 // ------------------------------------------------------
 
-const filterByTitleAndDescription = (data, searchedWordsArray, mergedResults) => {
+const filterByTitleAndDescription = (
+  data,
+  searchedWordsArray,
+  mergedResults
+) => {
   data.forEach((recipe) => {
     if (
       searchedWordsArray.every((word) => {
@@ -23,7 +27,6 @@ const filterByTitleAndDescription = (data, searchedWordsArray, mergedResults) =>
 const filterByIngredients = (data, searchedWordsArray, mergedResults) => {
   const ingredientsResults = data.filter((recipe) => {
     return recipe.ingredients.some((obj) =>
-
       searchedWordsArray.every((word) => {
         return obj.ingredient.toLowerCase().includes(word.toLowerCase())
       })
@@ -41,8 +44,4 @@ const updateRecipeCounter = (data) => {
   recipeCounter.innerText = `${data.length} recettes`
 }
 
-export {
-  filterByIngredients,
-  updateRecipeCounter,
-  filterByTitleAndDescription
-}
+export { filterByIngredients, updateRecipeCounter, filterByTitleAndDescription }

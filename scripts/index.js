@@ -2,13 +2,13 @@ import { getData } from './utils/fetch.js'
 import {
   filterByIngredients,
   updateRecipeCounter,
-  filterByTitleAndDescription
+  filterByTitleAndDescription,
 } from './modules/searchHelpers.js'
 import { renderCards } from './templates/card.js'
 import {
   capitalizeFirstLetter,
   clearSearchInput,
-  sanitizeForXSS
+  sanitizeForXSS,
 } from './utils/utils.js'
 import { handleCategorySearchFilter } from './modules/filters.js'
 
@@ -39,13 +39,14 @@ let tagsList = []
 const initPage = () => {
   renderRecipePage(recipes)
   handleCategorySearchFilter()
-  headerForm.addEventListener('click', (e) => {
-    e.preventDefault()
+  headerForm.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault() // Empêche la soumission du formulaire via la touche Enter
+    }
   })
-  searchClearBtn.addEventListener('click', () => {
-    search.value = ''
-    renderRecipePage(recipes)
-  })
+  // headerForm.addEventListener('click', (e) => {
+  //   e.preventDefault()
+  // })
 }
 
 // ----------------------------------------------------
@@ -210,7 +211,9 @@ const setIngredientsList = (data = recipes) => {
   const ingredListItem = new Set()
   data.forEach((recipe) => {
     recipe.ingredients.forEach((ingredient) => {
-      const formattedString = capitalizeFirstLetter(ingredient.ingredient).trim()
+      const formattedString = capitalizeFirstLetter(
+        ingredient.ingredient
+      ).trim()
       ingredListItem.add(formattedString)
     })
   })

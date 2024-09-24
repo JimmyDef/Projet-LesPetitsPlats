@@ -28,6 +28,7 @@
 
 html {
   background-color: #ededed;
+  overflow-y: scroll;
 }
 
 body {

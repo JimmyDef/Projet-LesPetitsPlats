@@ -60,10 +60,10 @@ ustensilBtn.addEventListener('click', () => {
 // ----------------------------------------------------
 
 document.addEventListener('click', (e) => {
-  const isClickInsideInsideInputIngredients = ingredientsFilterDom.contains(
+  const isClickedInsideInputIngredients = ingredientsFilterDom.contains(
     e.target
   )
-  const isClickInsideInsideInputDevices = devicesFilterDom.contains(e.target)
+  const checkIfClickInsideInputDevices = devicesFilterDom.contains(e.target)
   const isClickInsideInsideInputUstensils = ustensilsFilterDom.contains(
     e.target
   )
@@ -78,11 +78,11 @@ document.addEventListener('click', (e) => {
     filterCollapsedChevron.classList.remove('filter__chevron--up')
     filterCollapsed.classList.remove('filter__is-collapsed')
   }
-  if (!isClickInsideInsideInputIngredients) {
+  if (!isClickedInsideInputIngredients) {
     ingredientsSearch.value = ''
     filterListDisplay('ingredients', '')
   }
-  if (!isClickInsideInsideInputDevices) {
+  if (!checkIfClickInsideInputDevices) {
     devicesSearch.value = ''
     filterListDisplay('devices', '')
   }
