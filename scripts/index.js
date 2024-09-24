@@ -2,13 +2,13 @@ import { getData } from './utils/fetch.js'
 import {
   filterByIngredients,
   updateRecipeCounter,
-  filterByTitleAndDescription
+  filterByTitleAndDescription,
 } from './modules/searchHelpers.js'
 import { renderCards } from './templates/card.js'
 import {
   capitalizeFirstLetter,
   clearSearchInput,
-  filterInputXss
+  filterInputXss,
 } from './utils/utils.js'
 import { handleCategorySearchFilter } from './modules/filters.js'
 
@@ -21,7 +21,6 @@ const ustensilsListDom = document.getElementById('ustensils-list')
 const searchInput = document.getElementById('search')
 const headerForm = document.getElementById('header-form')
 const search = document.getElementById('search')
-const searchClearBtn = document.querySelector('.header__input-clear-btn')
 
 // --------------------------------------------------------
 
@@ -37,12 +36,10 @@ let tagsList = []
 const initPage = () => {
   renderRecipePage(recipes)
   handleCategorySearchFilter()
-  headerForm.addEventListener('click', (e) => {
-    e.preventDefault()
-  })
-  searchClearBtn.addEventListener('click', () => {
-    search.value = ''
-    renderRecipePage(recipes)
+  headerForm.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault()
+    }
   })
 }
 
@@ -208,7 +205,9 @@ const setIngredientsList = (data = recipes) => {
   const ingredListItem = new Set()
   data.forEach((recipe) => {
     recipe.ingredients.forEach((ingredient) => {
-      const formattedString = capitalizeFirstLetter(ingredient.ingredient).trim()
+      const formattedString = capitalizeFirstLetter(
+        ingredient.ingredient
+      ).trim()
       ingredListItem.add(formattedString)
     })
   })

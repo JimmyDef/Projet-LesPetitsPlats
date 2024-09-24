@@ -20,3 +20,15 @@
     cursor: pointer;
   }
 }
+
+@media screen and (max-width: 800px) {
+  .tags {
+    height: 40px;
+    line-height: 40px;
+    padding: 0 10px;
+  }
+  .tags__cross {
+    padding-top: 12px;
+    margin-left: 10px;
+  }
+}

@@ -1,7 +1,7 @@
 main {
-  max-width: 1440px;
+  max-width: 1240px;
   margin: 0 auto;
-  padding: 20px 100px 200px;
+  padding: 20px 0 200px;
 }
 
 .filter {
@@ -128,12 +128,16 @@ main {
     right: 25px;
   }
 }
+.filter__is-collapsed {
+  display: flex;
+}
 
 .cards-container {
   display: grid;
+  gap: 60px 48px;
   grid-template-columns: 1fr 1fr 1fr;
   justify-content: space-between;
-  gap: 48px;
+
   &__no-match-msg {
     width: 70vw;
     font-size: 1.3rem;
@@ -144,6 +148,52 @@ main {
   }
 }
 
-.filter__is-collapsed {
-  display: flex;
+@media screen and (max-width: 1300px) {
+  main {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 20px 40px 200px;
+  }
+  .card {
+    max-width: 460px;
+  }
+  .filter {
+    &__container {
+      gap: 5vw;
+    }
+  }
+}
+@media screen and (max-width: 1050px) {
+  .cards-container {
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  }
+}
+@media screen and (max-width: 890px) {
+  .filter {
+    &__container {
+      gap: 5vw;
+      margin-bottom: 20px;
+    }
+    &__filters-and-count {
+      display: unset;
+    }
+    &__btn {
+      height: 40px;
+      line-height: 40px;
+      font-size: 0.875rem;
+    }
+    &__collapser {
+      top: 40px;
+    }
+    &__chevron {
+      top: 16px;
+    }
+  }
+}
+@media screen and (max-width: 625px) {
+  .filter {
+    &__container {
+      display: none;
+    }
+  }
 }
