@@ -53,7 +53,7 @@ main {
     }
   }
   &__recipe-count {
-    font: 400 1.313rem "Anton", sans-serif;
+    font: 400 1.313rem 'Anton', sans-serif;
     padding-top: 4px;
   }
   // ---------------------------------------------
@@ -70,7 +70,7 @@ main {
     border-radius: 0 0 11px 11px;
     display: none;
     transform: translateY(-9px);
-    animation: collapse 400ms both;
+    animation: collapse 200ms both;
   }
 
   &__search-wrapper {

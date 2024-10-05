@@ -1,21 +1,21 @@
 @keyframes collapse {
   from {
     opacity: 0;
-    height: 0;
+    max-height: 0;
   }
   to {
     opacity: 1;
-    max-height: 259px;
+    max-height: 259px; /* ou une valeur suffisante pour contenir le contenu */
   }
 }
 @keyframes collapse-up {
   from {
     opacity: 1;
-    height: 259px;
+    max-height: 259px;
   }
   to {
     opacity: 0;
-    height: 0;
+    max-height: 0;
   }
 }
 *,
@@ -654,7 +654,7 @@ main {
   border-radius: 0 0 11px 11px;
   display: none;
   transform: translateY(-9px);
-  animation: collapse 400ms both;
+  animation: collapse 200ms both;
 }
 .filter__search-wrapper {
   position: relative;
