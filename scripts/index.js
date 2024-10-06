@@ -8,7 +8,7 @@ import { renderCards } from './templates/card.js'
 import {
   capitalizeFirstLetter,
   clearSearchInput,
-  filterInputXss,
+  sanitizeInput,
 } from './utils/utils.js'
 import { handleCategorySearchFilter } from './modules/filters.js'
 
@@ -52,22 +52,25 @@ const renderRecipePage = (dataRecipes, inputValue) => {
   updateRecipeCounter(dataRecipes)
   filtersListHandler(dataRecipes)
 }
+
 // ----------------------------------------------------
 //  Gestion bar de recherche principal
 // ----------------------------------------------------
 
 searchInput.addEventListener('input', (e) => {
-  const input = filterInputXss(e.target.value.trim())
+  const input = sanitizeInput(e.target.value)
+  e.target.value = input
+  const cleanedValue = input.trim()
   searchResult = recipes
   tagsList = []
   tagsSection.innerHTML = ' '
 
-  if (input === null || input.length < 3) {
+  if (cleanedValue === null || cleanedValue.length < 3) {
     renderRecipePage(recipes, e.target.value)
     return
   }
-  if (input !== null && input.length >= 3) {
-    const searchedWordsArray = input.split(' ')
+  if (cleanedValue !== null && cleanedValue.length >= 3) {
+    const searchedWordsArray = cleanedValue.split(' ')
     const mergedResults = new Set()
 
     filterByTitleAndDescription(recipes, searchedWordsArray, mergedResults)

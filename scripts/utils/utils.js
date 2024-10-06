@@ -2,7 +2,7 @@
 // Fonction formatage string majuscule 1ère lettre
 // ----------------------------------------------------
 export const capitalizeFirstLetter = (str) => {
-  return (str.charAt(0).toUpperCase() + str.slice(1).toLowerCase())
+  return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase()
 }
 
 // ----------------------------------------------------
@@ -15,6 +15,4 @@ export const clearSearchInput = (inputName) => {
 // ----------------------------------------------------
 // Fonction echappement caractères spéciaux
 // ----------------------------------------------------
-export const filterInputXss = (input) => {
-  return input.replace(/[<>&"/=]/g, '')
-}
+export const sanitizeInput = (input) => input.replace(/[<>&"/=]/g, '')

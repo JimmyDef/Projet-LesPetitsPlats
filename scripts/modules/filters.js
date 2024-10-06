@@ -1,4 +1,4 @@
-import { filterInputXss } from './../utils/utils.js'
+import { sanitizeInput } from './../utils/utils.js'
 
 // DOM Filter ingredients ------------------
 const ingredientsBtn = document.getElementById('ingredients-btn')
@@ -98,16 +98,21 @@ document.addEventListener('click', (e) => {
 
 const handleCategorySearchFilter = () => {
   ingredientsSearch.addEventListener('input', (e) => {
-    const input = filterInputXss(e.target.value)
-    filterListDisplay('ingredients', input)
+    const cleanedValue = sanitizeInput(e.target.value)
+    e.target.value = cleanedValue
+    filterListDisplay('ingredients', cleanedValue.trim())
   })
+
   devicesSearch.addEventListener('input', (e) => {
-    const input = filterInputXss(e.target.value)
-    filterListDisplay('devices', input)
+    const cleanedValue = sanitizeInput(e.target.value)
+    e.target.value = cleanedValue
+    filterListDisplay('devices', cleanedValue.trim())
   })
+
   ustensilsSearch.addEventListener('input', (e) => {
-    const input = filterInputXss(e.target.value)
-    filterListDisplay('ustensils', input)
+    const cleanedValue = sanitizeInput(e.target.value)
+    e.target.value = cleanedValue
+    filterListDisplay('ustensils', cleanedValue.trim())
   })
 }
 
