@@ -21,7 +21,7 @@ const ustensilsListDom = document.getElementById('ustensils-list')
 const searchInput = document.getElementById('search')
 const headerForm = document.getElementById('header-form')
 const search = document.getElementById('search')
-
+const searchBtn = document.getElementById('search-btn')
 // --------------------------------------------------------
 
 const recipes = await getData('./../assets/data/recipes.json')
@@ -36,6 +36,10 @@ let tagsList = []
 const initPage = () => {
   renderRecipePage(recipes)
   handleCategorySearchFilter()
+  searchBtn.addEventListener('click', (e) => {
+    e.preventDefault()
+  })
+
   headerForm.addEventListener('keydown', (e) => {
     if (e.key === 'Enter') {
       e.preventDefault()
