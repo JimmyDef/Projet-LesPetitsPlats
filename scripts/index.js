@@ -21,12 +21,10 @@ const ustensilsListDom = document.getElementById('ustensils-list')
 const searchInput = document.getElementById('search')
 const headerForm = document.getElementById('header-form')
 const search = document.getElementById('search')
-
+const searchBtn = document.getElementById('search-btn')
 // --------------------------------------------------------
 
-const recipes = await getData(
-  'https://jimmydef.net/lespetitsplats/assets/data/recipes.json'
-)
+const recipes = await getData('assets/data/recipes.json')
 let searchResult
 let tagsList = []
 
@@ -38,6 +36,9 @@ let tagsList = []
 const initPage = () => {
   renderRecipePage(recipes)
   handleCategorySearchFilter()
+  searchBtn.addEventListener('click', (e) => {
+    e.preventDefault()
+  })
   headerForm.addEventListener('keydown', (e) => {
     if (e.key === 'Enter') {
       e.preventDefault()
@@ -140,7 +141,7 @@ const tagHandler = (tagName, type) => {
   btn.className = 'tags'
   btn.innerText = `${tagName}`
   const closeImg = document.createElement('img')
-  closeImg.src = './assets/icons/cross.svg'
+  closeImg.src = 'assets/icons/cross.svg'
   closeImg.alt = 'croix supprimer le tag'
   closeImg.className = 'tags__cross'
   closeImg.addEventListener('click', () => {

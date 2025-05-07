@@ -20,8 +20,8 @@
           class="header__logo"
           aria-label="Retour accueil Les petits Plats"
         >
-          <img src="./assets/icons/LPP_logo.svg" alt="logo Les Petits Plats" />
-          <img src="./assets/icons/logo.svg" alt="logo assiette" />
+          <img src="assets/icons/LPP_logo.svg" alt="logo Les Petits Plats" />
+          <img src="assets/icons/logo.svg" alt="logo assiette" />
         </a>
 
         <h1>
@@ -38,8 +38,13 @@
             placeholder="Rechercher une recette, un ingrédient, ..."
             maxlength="35"
           />
-          <button class="header__magnifier">
-            <img src="./assets/icons/magnifier-bg-black.svg" alt="loupe" />
+          <button
+            class="header__magnifier"
+            type="submit"
+            aria-label="Rechercher"
+            id="search-btn"
+          >
+            <img src="assets/icons/magnifier-bg-black.svg" alt="loupe" />
           </button>
         </form>
       </div>
@@ -50,7 +55,7 @@
           <div class="filter__container">
             <div class="filter__wrapper">
               <img
-                src="./assets/icons/chevron.svg"
+                src="assets/icons/chevron.svg"
                 class="filter__chevron"
                 alt="chevron ouvrir liste"
                 id="ingredients-chevron"
@@ -67,7 +72,7 @@
                     id="ingredients-search"
                   />
                   <img
-                    src="./assets/icons/magnifier.svg"
+                    src="assets/icons/magnifier.svg"
                     class="filter__magnifier"
                     alt="loupe rechercher"
                   />
@@ -79,7 +84,7 @@
 
             <div class="filter__wrapper">
               <img
-                src="./assets/icons/chevron.svg"
+                src="assets/icons/chevron.svg"
                 class="filter__chevron"
                 alt="chevron ouvrir liste"
                 id="devices-chevron"
@@ -93,7 +98,7 @@
                     id="devices-search"
                   />
                   <img
-                    src="./assets/icons/magnifier.svg"
+                    src="assets/icons/magnifier.svg"
                     class="filter__magnifier"
                     alt="loupe rechercher"
                   />
@@ -104,7 +109,7 @@
             </div>
             <div class="filter__wrapper">
               <img
-                src="./assets/icons/chevron.svg"
+                src="assets/icons/chevron.svg"
                 class="filter__chevron"
                 alt="chevron ouvrir liste"
                 id="ustensils-chevron"
@@ -118,7 +123,7 @@
                     id="ustensils-search"
                   />
                   <img
-                    src="./assets/icons/magnifier.svg"
+                    src="assets/icons/magnifier.svg"
                     class="filter__magnifier"
                     alt="loupe rechercher"
                   />
